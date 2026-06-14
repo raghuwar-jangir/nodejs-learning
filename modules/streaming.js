@@ -3,10 +3,10 @@ const fs = require("fs");
 
 // readable stream
 const interface = readline.createInterface({
-  input: fs.createReadStream("./fruits.txt"),
+  input: fs.createReadStream("./files/fruits.txt"),
 });
 
-const writeStream = fs.createWriteStream("./output.txt");
+const writeStream = fs.createWriteStream("./files/output.txt");
 
 interface.on("line", (data) => {
   // //writeable stream
