@@ -1,0 +1,10 @@
+1. Apple
+2. Banana
+3. Mango
+4. Orange
+5. Grapes
+6. Pineapple
+7. Watermelon
+8. Strawberry
+9. Papaya
+10. Guava
