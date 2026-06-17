@@ -16,7 +16,10 @@ const getRequestHandler = (req, res) => {
         res.statusCode = 500;
         return res.end("Internal Server Error");
       } else {
-        res.statusCode = 200;
+        // res.statusCode = 200;
+        res.writeHeader(200, {
+          "Content-Type": "application/json",
+        });
         return res.end(JSON.stringify(data));
       }
     });
@@ -41,8 +44,11 @@ const postRequestHanlder = (req, res) => {
   const pathname = req.url;
 
   if (pathname == "/logs") {
-    let body = "";
+    let body = ""; //string
     req.on("data", (bodyChunk) => {
+      //**   important  */
+      //body(string) + bodyChunk(buffer object),
+      // coersion happens and javascript will convert buffer Object to string and expression become string + string
       body += bodyChunk;
     });
 
