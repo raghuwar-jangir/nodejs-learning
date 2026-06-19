@@ -150,7 +150,217 @@
 //   .then((value) => {
 //     console.log("original value", value);
 //     // return Promise.resolve("new Value");// propogate promise with new value
-//     return Promise.reject("new reject reason"); // propogate promise with new error
+//     // return Promise.reject("new reject reason"); // propogate promise with new error
 //   })
 //   .then((newValue) => console.log("value", newValue)) //skipped
 //   .catch((reason) => console.log("reason", reason)); //caught here
+
+// // ***************************     proimse.race()
+// const pr1 = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     res("sucess 1");
+//   }, 2000);
+// });
+
+// const pr2 = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     rej("sucess 2");
+//   }, 2000);
+// });
+
+// //Settles as soon as the first promise finishes (wins or loses).
+
+// // If the fastest promise resolves, the whole race resolves with that value.
+
+// // If the fastest promise rejects, the whole race rejects with that error.
+
+// Promise.race([pr1, pr2])
+//   .then((result) => {
+//     console.log("result", result); //whoever resolves first
+//   })
+//   .catch((reason) => console.log("reson", reason));
+
+// // ***********************************  promise.any()
+
+// const pa1 = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     rej("sucess 1");
+//   }, 3000);
+// });
+
+// const pa2 = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     rej("sucess 2");
+//   }, 2000);
+// });
+
+// // : Fulfills as soon as the first promise succeeds; rejects only if all fail
+// Promise.any([pa1, pa2])
+//   .then((value) => console.log(value))
+//   .catch((reason) => console.log("failure", reason));
+
+// **************************************** create own promise.all functions
+
+// const customPromiseAll = (arr) => {
+//   return new Promise((res, rej) => {
+//     if (arr.length === 0) {
+//       res([]);
+//       return;
+//     }
+//     let result = [];
+//     let finished = 0;
+//     arr.forEach((pr, index) => {
+//       pr.then((value) => {
+//         result[index] = value;
+//         finished++;
+//         if (finished == arr.length) {
+//           res(result);
+//         }
+//       }).catch((reason) => {
+//         rej(reason);
+//       });
+//     });
+//   });
+// };
+
+// const pa1 = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     res("sucess 1");
+//   }, 2000);
+// });
+
+// const pa2 = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     res("sucess 2");
+//   }, 2000);
+// });
+
+// Promise.customAll = customPromiseAll;
+
+// Promise.customAll([pa1, pa2])
+//   .then((result) => console.log("result", result))
+//   .catch((errror) => console.log("reason", errror));
+
+// // **************************************** create custome promise.race functions
+// const customRace = (promArr) => {
+//   return new Promise((res, rej) => {
+//     if (promArr.length == 0) {
+//       return;
+//     }
+//     promArr.forEach((pr) => {
+//       pr.then((value) => res(value)).catch((reason) => rej(reason));
+//     });
+//   });
+// };
+
+// Promise.customRace = customRace;
+
+// const pa1 = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     res("sucess 1");
+//   }, 4000);
+// });
+
+// const pa2 = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     rej("rejected 2");
+//   }, 3000);
+// });
+
+// Promise.customRace([pa1, pa2])
+//   .then((value) => console.log(value))
+//   .catch((reason) => console.log(reason));
+
+// // // **************************************** create custome promise.any() functions
+
+// Promise.customAny = (promArr) => {
+//   return new Promise((res, rej) => {
+//     if (promArr.length == 0) {
+//       rej('Aggregate error');
+//       return;
+//     }
+//     let failed = 0;
+//     let errors = [];
+
+//     promArr.forEach((prom) => {
+//       prom
+//         .then((value) => {
+//           res(value);
+//           return;
+//         })
+//         .catch((reason) => {
+//           failed++;
+//           errors[index] = reason // Save error by its original index
+//           if (failed == promArr.length) {
+//             rej(reason);
+//             return;
+//           }
+//         });
+//     });
+//   });
+// };
+
+// const pa1 = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     rej("sucess 1");
+//   }, 4000);
+// });
+
+// const pa2 = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     rej("success 2");
+//   }, 5000);
+// });
+
+// Promise.customAny([pa1, pa2])
+//   .then((value) => console.log(value))
+//   .catch((reason) => console.log("reject<<", reason));
+
+// // // // // **************************************** create custome promise.allSettled functions
+
+// Promise.customAllSettled = (promArr) => {
+//   return new Promise((res, rej) => {
+//     if (promArr.length == 0) {
+//       res([]);
+//       return;
+//     }
+//     let results = [];
+//     let settled = 0;
+//     promArr.forEach((prom, index) => {
+//       Promise.resolve(prom)
+//         .then((value) => {
+//           results[index] = {
+//             status: "fulfilled",
+//             value: value,
+//           };
+//         })
+//         .catch((reason) => {
+//           results[index] = {
+//             status: "rejected",
+//             value: reason,
+//           };
+//         })
+//         .finally(() => {
+//           settled++;
+//           if (settled == promArr.length) {
+//             res(results);
+//             return;
+//           }
+//         });
+//     });
+//   });
+// };
+
+// const pa1 = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     res("sucess 1");
+//   }, 1000);
+// });
+
+// const pa2 = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     res("success 2");
+//   }, 2000);
+// });
+
+// Promise.customAllSettled([pa1, pa2]).then((value) => console.log(value));
