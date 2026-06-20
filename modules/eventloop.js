@@ -30,21 +30,21 @@
 
 // ******************************************
 // ****** test 2 important running microtask b/w two macrotask ******
-console.log("Start");
+// console.log("Start");
 
-setTimeout(() => {
-  console.log("Timeout 1");
-  Promise.resolve().then(() => console.log("Promise inside Timeout"));
-}, 0);
+// setTimeout(() => {
+//   console.log("Timeout 1");
+//   Promise.resolve().then(() => console.log("Promise inside Timeout"));
+// }, 0);
 
-setTimeout(() => console.log("Timeout 2"), 0);
+// setTimeout(() => console.log("Timeout 2"), 0);
 
-Promise.resolve().then(() => console.log("Promise 1"));
+// Promise.resolve().then(() => console.log("Promise 1"));
 
-console.log("End");
+// console.log("End");
 
-// *****************************************
-//**** test 3 The async / await Illusion *****
+// // *****************************************
+// // **** test 3 The async / await Illusion *****
 // async function async1() {
 //   console.log("async1 start");
 //   await async2();
